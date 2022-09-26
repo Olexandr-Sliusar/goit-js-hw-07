@@ -8,13 +8,13 @@ const navGalaryEl = document.querySelector('.gallery');
 function makeGallery(galleryItems) {
   const galleryItemsMarkup = galleryItems
     .map(({ preview, original, description }) => {
-      return `<a class="gallery__item" href="${original}">
+      return `<li><a class="gallery__item" href="${original}">
                 <img  
                   class="gallery__image"
                   src="${preview}" 
                   alt="${description}"
                    />
-              </a>`;
+              </a></li>`;
     })
     .join('');
   return navGalaryEl.insertAdjacentHTML('afterbegin', galleryItemsMarkup);
@@ -22,7 +22,3 @@ function makeGallery(galleryItems) {
 
 makeGallery(galleryItems);
 const gallery = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
-
-gallery.on('error.simplelightbox', function (e) {
-  console.log(e);
-});

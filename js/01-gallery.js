@@ -29,17 +29,22 @@ makeGallery(galleryItems);
 
 function onClickGalleryElement(event) {
   event.preventDefault();
-
+  console.log(event.target.nodeName);
   const onClickImg = event.target.nodeName === 'IMG';
   if (!onClickImg) return;
 
   const { alt } = event.target;
   const source = event.target.dataset.source;
 
-  instance = basicLightbox.create(`<img src="${source}" alt="${alt}" width="800" height="600" />`);
+  instance = basicLightbox.create(`<img src="${source}" alt="${alt}" width="800" height="600" />`, {
+    onClose: () => {
+      window.removeEventListener('keydown', onKeyPress);
+    },
+    onShow: () => {
+      window.addEventListener('keydown', onKeyPress);
+    },
+  });
   instance.show();
-
-  navGalaryEl.addEventListener('keydown', onKeyPress);
 }
 
 function onKeyPress(event) {
@@ -48,6 +53,5 @@ function onKeyPress(event) {
 
   if (isEscKey) {
     instance.close();
-    navGalaryEl.removeEventListener('keydown', onKeyPress);
   }
 }
